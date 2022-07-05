@@ -10,7 +10,7 @@
   Mutation
   (mutate [this state]
     (if-let [shape-id (-> state keys rand-nth)]
-      (update state shape-id (constantly style))
+      (update-in state [shape-id :style] (constantly style))
       state)))
 
 (defrecord AddShape [shape]
