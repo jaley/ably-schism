@@ -11,7 +11,8 @@
    [:svg
     {:width "1200px"
      :height "600px"}
-    (->> @model :shapes (map shapes/render))]])
+    (for [[id shape] @model]
+      ^{:key id} [shapes/render shape])]])
 
 (defn page-root
   "Landing page boiler plate"

@@ -9,5 +9,5 @@
   [channel-name]
   (r/atom
    (s/convergent-map
-    :shapes [(shapes/->Circle 100 100 50 {:fill "red"})
-             (shapes/->Rect 300 300 150 250 {:fill "green"})])))
+    "abc-123" (shapes/->Circle 100 100 50 {:fill "red"})
+    "def-456" (shapes/->Rect 300 300 150 250 {:fill "green"}))))
