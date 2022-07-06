@@ -71,3 +71,11 @@
                    random-update
                    ->DeleteShape]]
     (-> mutations rand-nth .call)))
+
+(defn mutation-seq
+  "Returns an infinite lazy-seq of random mutations for the given canvas dims"
+  [canvas-width canvas-height]
+  (lazy-seq
+   (cons
+    (random-mutation canvas-width canvas-height)
+    (mutation-seq canvas-width canvas-height))))

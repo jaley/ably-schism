@@ -2,12 +2,12 @@
 {:source-paths
  ["src/dev"
   "src/main"
-  "src/test"]
+  "src/test"
+  "src/secrets"]
 
  :dependencies
  [[reagent "1.1.1"]
-  [com.holychao/schism "0.1.2"]
-  [org.clojure/core.async "1.5.648"]]
+  [com.holychao/schism "0.1.2"]]
 
  :dev-http {8080 "public"}
  :builds

@@ -1,5 +1,6 @@
 (ns ably-schism.frontend.shapes
-  (:require [ably-schism.frontend.svg :as svg]))
+  (:require [cljs.reader :as r]
+            [ably-schism.frontend.svg :as svg]))
 
 
 (defprotocol Renderable
@@ -14,3 +15,6 @@
   Renderable
   (render [circle]
     (svg/circle x y radius styles)))
+
+(r/register-tag-parser! 'ably-schism.frontend.shapes.Circle map->Circle)
+(r/register-tag-parser! 'ably-schism.frontend.shapes.Rect map->Rect)
