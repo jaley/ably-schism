@@ -67,10 +67,11 @@
 (defn random-mutation
   "Returns a Mutation to make a random change to model state"
   [canvas-width canvas-height]
-  (let [mutations [(partial random-add-shape canvas-width canvas-height)
-                   random-update
-                   ->DeleteShape]]
-    (-> mutations rand-nth .call)))
+  (let [i (rand-int 10)]
+    (condp > i
+      2  (->DeleteShape)
+      5  (random-update)
+      10 (random-add-shape canvas-width canvas-height))))
 
 (defn mutation-seq
   "Returns an infinite lazy-seq of random mutations for the given canvas dims"
