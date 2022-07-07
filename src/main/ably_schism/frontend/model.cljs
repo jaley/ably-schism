@@ -1,7 +1,8 @@
 (ns ably-schism.frontend.model
   (:require [ably-schism.frontend.shapes :as shapes]
             [reagent.core :as r]
-            [schism.core :as s]))
+            [schism.core :as s]
+            [schism.node :as snode]))
 
 (defn init
   "Returns a reagent atom with model state for given channel name,
@@ -9,5 +10,4 @@
   [channel-name]
   (r/atom
    (s/convergent-map
-    "abc-123" (shapes/->Circle 100 100 50 {:fill "red"})
-    "def-456" (shapes/->Rect 300 300 150 250 {:fill "green"}))))
+    snode/*current-node* (shapes/->Blank snode/*current-node*))))
