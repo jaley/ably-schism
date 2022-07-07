@@ -1,5 +1,6 @@
 (ns ably-schism.frontend.core
-  (:require [reagent.core :as r]
+  (:require [clojure.core.async :as async]
+            [reagent.core :as r]
             [reagent.dom :as rdom]
             [schism.core :as s]
             [schism.node :as snode]
@@ -25,14 +26,34 @@
     (for [[id shape] @model]
       ^{:key id} [shapes/render shape])]])
 
+(defn toggle-robot!
+  "Start the robot if ch is nil and return a new stop-chan.
+  If ch is a channel, close it to stop the robot and return nil."
+  [ch model]
+  (let [mutations (mut/mutation-seq canvas-width-px canvas-height-px)]
+    (if (nil? ch)
+      (robot/start! model mutations robot-edit-interval-ms)
+      (async/close! ch))))
+
+(defn toolbar
+  "Simple controls to stop and start robot and sync"
+  [model robot-ch]
+  [:div.toolbar
+   [:button.toolbar-button
+    {:on-click (fn [_] (swap! robot-ch toggle-robot! model))}
+    (if @robot-ch "Stop Robot" "Start Robot")]
+   [:button.toolbar-button "Start Sync"]])
+
 (defn page-root
   "Landing page boiler plate"
   [model]
-  [:div.root
-   [:div.head
-    [:h1 "Ably/Schism Demo"]]
-   [:div.main
-    [canvas model]]])
+  (let [robot-ch (r/atom nil)]
+    [:div.root
+     [:div.head
+      [:h1 "Ably/Schism Demo"]
+      [toolbar model robot-ch]]
+     [:div.main
+      [canvas model]]]))
 
 
 (defn mount-root
@@ -62,8 +83,5 @@
   "Entry point to attach page to root"
   []
   (snode/initialize-node!)
-  (let [model (model/init "test")
-        mutations (mut/mutation-seq canvas-width-px canvas-height-px)]
-    (mount-root "root" model)
-    (exchange model
-              (robot/start! mutations robot-edit-interval-ms))))
+  (let [model (model/init "test")]
+    (mount-root "root" model)))
