@@ -13,7 +13,6 @@
 
 (def ^:const canvas-width-px 800)
 (def ^:const canvas-height-px 400)
-(def ^:const ably-channel-name "canvas-state")
 
 (defn canvas
   "Return an SVG canvas element, rendering content from model"
