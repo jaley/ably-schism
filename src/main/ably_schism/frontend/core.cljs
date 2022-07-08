@@ -10,8 +10,8 @@
             [ably-schism.frontend.robot :as robot]
             [ably-schism.frontend.ably :as ably]))
 
-(def ^:const canvas-width-px 1200)
-(def ^:const canvas-height-px 600)
+(def ^:const canvas-width-px 800)
+(def ^:const canvas-height-px 400)
 (def ^:const ably-channel-name "canvas-state")
 
 (defn canvas
@@ -63,7 +63,6 @@
       [toolbar model robot-ch sync-ch]]
      [:div.main
       [canvas model]]]))
-
 
 (defn mount-root
   "Attach reagent to the root element"
