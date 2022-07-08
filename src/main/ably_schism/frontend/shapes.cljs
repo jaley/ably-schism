@@ -16,11 +16,5 @@
   (render [circle]
     (svg/circle x y radius styles)))
 
-(defrecord Blank [node-id]
-  Renderable
-  (render [_]
-    [:div {:id node-id :style {:display "none"}}]))
-
 (r/register-tag-parser! 'ably-schism.frontend.shapes.Circle map->Circle)
 (r/register-tag-parser! 'ably-schism.frontend.shapes.Rect map->Rect)
-(r/register-tag-parser! 'ably-schism.frontend.shapes.Blank map->Blank)

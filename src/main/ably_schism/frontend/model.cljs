@@ -10,4 +10,5 @@
   [channel-name]
   (r/atom
    (s/convergent-map
-    snode/*current-node* (shapes/->Blank snode/*current-node*))))
+    :channel channel-name
+    :shapes  {})))

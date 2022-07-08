@@ -14,6 +14,6 @@
                     time-ch (async/timeout edit-interval-ms)]
       (let [[_ ch] (async/alts! [stop-ch time-ch])]
         (when (= ch time-ch)
-          (swap! model (partial mut/mutate (first muts)))
+          (swap! model update :shapes (partial mut/mutate (first muts)))
           (recur (rest muts) (async/timeout edit-interval-ms)))))
     stop-ch))

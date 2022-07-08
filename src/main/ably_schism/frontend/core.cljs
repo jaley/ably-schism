@@ -1,5 +1,6 @@
 (ns ably-schism.frontend.core
   (:require [clojure.core.async :as async]
+            [clojure.string :as str]
             [reagent.core :as r]
             [reagent.dom :as rdom]
             [schism.core :as s]
@@ -21,7 +22,7 @@
    [:svg
     {:width (str canvas-width-px "px")
      :height (str canvas-height-px "px")}
-    (for [[id shape] @model]
+    (for [[id shape] (:shapes @model)]
       ^{:key id} [shapes/render shape])]])
 
 (defn toggle-robot!
@@ -71,9 +72,20 @@
    [page-root model]
    (.getElementById js/document root-id)))
 
+(defn get-or-set-channel!
+  "Check to see if there's a channel ID in the path.
+  If not, redirect us now, else return it."
+  []
+  (if (= (.. js/window -location -pathname) "/")
+    (set! (.. js/window -location -href) (str "/" (random-uuid)))
+    (str
+     "canvas:"
+     (subs (.. js/window -location -pathname) 1))))
+
 (defn ^:export init
   "Entry point to attach page to root"
   []
-  (snode/initialize-node!)
-  (let [model (model/init "test")]
-    (mount-root "root" model)))
+  (let [channel-name (get-or-set-channel!)]
+    (snode/initialize-node!)
+    (let [model (model/init channel-name)]
+      (mount-root "root" model))))
